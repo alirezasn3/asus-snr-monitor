@@ -1,4 +1,4 @@
-module snr-monitor
+module asus-snr-monitor
 
 go 1.17
 
