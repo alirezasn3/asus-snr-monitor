@@ -12,67 +12,9 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	prettyterm "github.com/alirezasn3/pretty-term"
 )
-
-type Color string
-
-const (
-	Red    = "\033[31m"
-	Green  = "\033[32m"
-	Yellow = "\033[33m"
-	Blue   = "\033[34m"
-	Purple = "\033[35m"
-	Cyan   = "\033[36m"
-	Gray   = "\033[37m"
-	White  = "\033[97m"
-)
-
-type BGColor string
-
-const (
-	BGBlack         = "\033[40m"
-	BGRed           = "\033[41m"
-	BGGreen         = "\033[42m"
-	BGYellow        = "\033[43m"
-	BGBlue          = "\033[44m"
-	BGMagenta       = "\033[45m"
-	BGCyan          = "\033[46m"
-	BGWhite         = "\033[47m"
-	BGBrightBlack   = "\033[40;1m"
-	BGBrightRed     = "\033[41;1m"
-	BGBrightGreen   = "\033[42;1m"
-	BGBrightYellow  = "\033[43;1m"
-	BGBrightBlue    = "\033[44;1m"
-	BGBrightMagenta = "\033[45;1m"
-	BGBrightCyan    = "\033[46;1m"
-	BGBrightWhite   = "\033[47;1m"
-)
-
-type Decoration string
-
-const (
-	Underlined = "\033[4m"
-	Reversed   = "\033[7m"
-)
-
-func clearTerminal() {
-	fmt.Print("\033[2J")
-}
-func setCursor(x int, y int) {
-	fmt.Printf("\033[%d;%dH", x, y)
-}
-func setColor(c Color) {
-	fmt.Print(c)
-}
-func setBGColor(c BGColor) {
-	fmt.Print(c)
-}
-func setDecoration(d Decoration) {
-	fmt.Print(d)
-}
-func resetTerminal() {
-	fmt.Print("\033[0m")
-}
 
 func getAsusToken(u string, p string) string {
 	req, _ := http.NewRequest("POST", "http://192.168.1.1/login.cgi", strings.NewReader(("login_authorization=" + base64.StdEncoding.EncodeToString([]byte(u+":"+p)))))
@@ -100,7 +42,7 @@ func main() {
 	client := &http.Client{}
 
 	// clear terminal
-	clearTerminal()
+	prettyterm.ClearTerminal()
 
 	// construct http req
 	adslReq, _ := http.NewRequest("GET", "http://192.168.1.1/cgi-bin/ajax_AdslStatus.asp", nil)
@@ -159,38 +101,38 @@ func main() {
 		samples++
 
 		// print results
-		setCursor(0, 0)
-		setColor(White)
+		prettyterm.SetCursor(0, 0)
+		prettyterm.SetColor(prettyterm.White)
 		fmt.Printf("Uptime\t: ")
-		setColor(Yellow)
+		prettyterm.SetColor(prettyterm.Yellow)
 		fmt.Printf("%s seconds\n", uptime)
-		setColor(White)
+		prettyterm.SetColor(prettyterm.White)
 		fmt.Print("samples\t: ")
-		setColor(Yellow)
+		prettyterm.SetColor(prettyterm.Yellow)
 		fmt.Printf("%.f\n", samples)
-		setColor(White)
+		prettyterm.SetColor(prettyterm.White)
 		fmt.Print("\nDownstream SNR\t: ")
-		setColor(Green)
+		prettyterm.SetColor(prettyterm.Green)
 		fmt.Printf("%.1f\tdB ", d)
-		setColor(White)
+		prettyterm.SetColor(prettyterm.White)
 		fmt.Print("| average: ")
-		setColor(Green)
+		prettyterm.SetColor(prettyterm.Green)
 		fmt.Printf("%.1f\tdB", dAvg)
-		setColor(White)
+		prettyterm.SetColor(prettyterm.White)
 		fmt.Print("\nUpstream SNR\t: ")
-		setColor(Green)
+		prettyterm.SetColor(prettyterm.Green)
 		fmt.Printf("%.1f\tdB ", u)
-		setColor(White)
+		prettyterm.SetColor(prettyterm.White)
 		fmt.Print("| average: ")
-		setColor(Green)
+		prettyterm.SetColor(prettyterm.Green)
 		fmt.Printf("%.1f\tdB\n", uAvg)
-		setColor(White)
+		prettyterm.SetColor(prettyterm.White)
 		fmt.Printf("\nDownstram CRC\t: ")
-		setColor(Red)
+		prettyterm.SetColor(prettyterm.Red)
 		fmt.Printf("%s", downstreamCRC)
-		setColor(White)
+		prettyterm.SetColor(prettyterm.White)
 		fmt.Print("\nUpstream CRC\t: ")
-		setColor(Red)
+		prettyterm.SetColor(prettyterm.Red)
 		fmt.Printf("%s\n", upstreamCRC)
 	}
 }
